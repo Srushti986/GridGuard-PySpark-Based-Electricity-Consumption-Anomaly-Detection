@@ -1,0 +1,28 @@
+# Hadoop configuration for the apache/hadoop image. Each line  FILE.XML_property=value  is
+# rendered into the matching Hadoop XML file when the container starts.
+
+CORE-SITE.XML_fs.defaultFS=hdfs://namenode:8020
+CORE-SITE.XML_fs.default.name=hdfs://namenode:8020
+
+# Single DataNode -> replication factor 1
+HDFS-SITE.XML_dfs.replication=1
+
+# NameNode: listen on all interfaces so the published port 8020 works from the host
+HDFS-SITE.XML_dfs.namenode.rpc-address=namenode:8020
+HDFS-SITE.XML_dfs.namenode.rpc-bind-host=0.0.0.0
+HDFS-SITE.XML_dfs.namenode.http-address=namenode:9870
+HDFS-SITE.XML_dfs.namenode.http-bind-host=0.0.0.0
+HDFS-SITE.XML_dfs.namenode.datanode.registration.ip-hostname-check=false
+
+# DataNode: advertise a hostname ("datanode") instead of the container IP so that clients
+# on the host (Spark, WebHDFS) can reach it through the published ports + a hosts-file entry
+HDFS-SITE.XML_dfs.datanode.hostname=datanode
+HDFS-SITE.XML_dfs.datanode.use.datanode.hostname=true
+HDFS-SITE.XML_dfs.client.use.datanode.hostname=true
+
+# WebHDFS (HTTP API used by the dashboard)
+HDFS-SITE.XML_dfs.webhdfs.enabled=true
+
+# DEVELOPMENT ONLY: no permission checks, so a host user can write without matching HDFS users.
+# Never use this setting on a shared or production cluster.
+HDFS-SITE.XML_dfs.permissions.enabled=false

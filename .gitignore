@@ -1,0 +1,23 @@
+# secrets / local config
+.env
+
+# raw + large data (re-download with data_download.py)
+data/*.txt
+data/*.zip
+
+# generated outputs
+outputs/*
+!outputs/.gitkeep
+
+# python / tooling
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# spark local artefacts
+spark-warehouse/
+metastore_db/
+derby.log

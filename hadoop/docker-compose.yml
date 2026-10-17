@@ -1,0 +1,57 @@
+# GridGuard - local single-node HDFS (1 NameNode + 1 DataNode) for development.
+#
+# Image: apache/hadoop (official Apache Hadoop images on Docker Hub).
+# STATUS: written from the published apache/hadoop docker-compose pattern; it has NOT been
+# end-to-end tested by the author of this repository. See hadoop/README.md ("Known issues").
+#
+# Start:  docker compose up -d        Stop:  docker compose down        Wipe data: docker compose down -v
+
+name: gridguard-hadoop
+
+services:
+  namenode:
+    image: apache/hadoop:3.3.6
+    container_name: gridguard-namenode
+    hostname: namenode
+    command: ["hdfs", "namenode"]
+    env_file: [./config]
+    environment:
+      # Formats the NameNode directory on first start only (the image's documented switch).
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+    ports:
+      - "9870:9870"   # NameNode web UI + WebHDFS (used by the Streamlit dashboard)
+      - "8020:8020"   # NameNode RPC (used by Spark: hdfs://localhost:8020)
+    volumes:
+      - namenode-data:/tmp/hadoop-root/dfs/name
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8020'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  datanode:
+    image: apache/hadoop:3.3.6
+    container_name: gridguard-datanode
+    hostname: datanode
+    command: ["hdfs", "datanode"]
+    env_file: [./config]
+    depends_on:
+      namenode:
+        condition: service_healthy
+    ports:
+      - "9864:9864"   # DataNode HTTP (WebHDFS file reads/writes are redirected here)
+      - "9866:9866"   # DataNode data transfer (Spark reads/writes blocks here)
+      - "9867:9867"   # DataNode IPC
+    volumes:
+      - datanode-data:/tmp/hadoop-root/dfs/data
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/9864'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+volumes:
+  namenode-data:
+  datanode-data:
