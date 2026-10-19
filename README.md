@@ -1,5 +1,5 @@
 # ⚡ GridGuard
-**A PySpark-Based Electricity Consumption Anomaly Detection and Visualization System**
+**Electricity Consumption Anomaly Detection and Visualization System Using PySpark**
 
 > **Honesty box — what has and has not been tested**
 > * Unit tests that need no Spark (anomaly reference logic, config, storage fallback, dashboard data loading, sample data) **were run and pass**.
@@ -8,7 +8,11 @@
 > * No result in this README comes from the real dataset; any numbers shown are described as *illustrative*.
 
 ## 1. Abstract
-GridGuard analyses minute-level household electricity readings with Apache Spark (PySpark), stores data in Hadoop HDFS (or locally in standalone mode), flags hours whose consumption deviates strongly from the household's own recent history using a rolling z-score, explains every flag in plain language, analyses recurring peak demand, and presents everything in an interactive Streamlit/Plotly dashboard.
+GridGuard is a project that uses PySpark to analyse household electricity consumption and identify unusual changes in usage. It processes electricity readings, cleans invalid data, studies consumption patterns, and detects readings that are significantly different from a household's previous usage.
+
+The project uses Apache Spark for data processing, Hadoop HDFS for storage, and Streamlit with Plotly to display the results through an interactive dashboard.
+
+It also provides simple explanations for detected anomalies, making it easier to understand why a particular reading was flagged. The system can run using local storage or HDFS, depending on the available setup.
 
 ## 2. Problem statement
 Consumption data is large and noisy, with gaps and invalid readings. Manually spotting unusual usage is impractical. A reproducible, explainable pipeline is needed that handles bad data safely and avoids look-ahead leakage.
@@ -17,7 +21,7 @@ Consumption data is large and noisy, with gaps and invalid readings. Manually sp
 Detect unusually high/low consumption · identify hourly/daily patterns · find recurring peaks · compare readings with historical baselines · explain each flag · visualise results · demonstrate HDFS storage + Spark processing.
 
 ## 4. Technologies
-Python · Apache Spark/PySpark (DataFrames, Spark SQL, window functions) · Hadoop HDFS (Docker Compose, `apache/hadoop`) · Streamlit · Plotly · NumPy/pandas (small dashboard-level tasks and the sample generator) · Jupyter/Colab. No Kafka, MLlib, TensorFlow, cloud databases or external APIs.
+Python · Apache Spark/PySpark (DataFrames, Spark SQL) · Hadoop HDFS (Docker Compose, `apache/hadoop`) · Streamlit · Plotly · NumPy/pandas (small dashboard-level tasks and the sample generator) · Jupyter/Colab. 
 
 ## 5. Dataset
 UCI *Individual Household Electric Power Consumption* — https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption (one household, 1-minute readings, Dec 2006–Nov 2010, `?` marks missing values). Field meanings and units: see [`data/README.md`](data/README.md). Primary metric: `Global_active_power` (kW). The dataset has **no meter IDs and no anomaly labels**; none are invented, so detection accuracy cannot be measured.
