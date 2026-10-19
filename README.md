@@ -112,4 +112,4 @@ Single household/metric; no ground truth (no precision/recall); z-scores assume 
 Multi-meter data and partitioned Parquet; robust statistics (median/MAD, seasonal decomposition); weekday-aware and holiday-aware baselines; streaming ingestion; alerting; authentication/Kerberos for HDFS; a Spark cluster instead of local mode.
 
 ## 17. Conclusion
-GridGuard shows an end-to-end, explainable big-data workflow — distributed storage, Spark processing, leakage-free statistical detection, and an interactive dashboard — with explicit, honest handling of storage mode and data quality.
+GridGuard shows an end-to-end, explainable big-data workflow - distributed storage, Spark processing, leakage-free statistical detection, and an interactive dashboard - with explicit, honest handling of storage mode and data quality.
