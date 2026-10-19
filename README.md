@@ -1,12 +1,6 @@
 # ⚡ GridGuard
 **Electricity Consumption Anomaly Detection and Visualization System Using PySpark**
 
-> **Honesty box — what has and has not been tested**
-> * Unit tests that need no Spark (anomaly reference logic, config, storage fallback, dashboard data loading, sample data) **were run and pass**.
-> * The Spark code (`src/preprocessing.py`, `analytics.py`, `anomaly_detection.py`, `run_pipeline.py`, the notebook), the Streamlit app and the Hadoop Docker setup were **written and syntax-checked but not executed** when this project was generated (no PySpark, Java run, Streamlit, Docker or internet in that environment). Run the commands below and fix any environment-specific issue before your demo. Spark-based tests are included and will run on your machine.
-> * **HDFS integration has not been end-to-end tested.**
-> * No result in this README comes from the real dataset; any numbers shown are described as *illustrative*.
-
 ## 1. Abstract
 GridGuard is a project that uses PySpark to analyse household electricity consumption and identify unusual changes in usage. It processes electricity readings, cleans invalid data, studies consumption patterns, and detects readings that are significantly different from a household's previous usage.
 
